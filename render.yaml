@@ -1,0 +1,45 @@
+# render.yaml - plantilla para desplegar VecinAPP en Render
+# Reemplaza los placeholders antes de usar. No incluyas secretos en el repo.
+
+services:
+  - type: web
+    name: vecinapp-backend
+    env: node
+    region: oregon
+    plan: starter
+    repo: "<YOUR_GIT_REPO>" # opcional
+    branch: main
+    buildCommand: npm ci && npm run build
+    startCommand: sh -lc "npx prisma generate && npx prisma migrate deploy && npm run start:prod"
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_URL
+        value: "https://<FRONTEND-URL>"
+
+  - type: static
+    name: vecinapp-frontend
+    region: oregon
+    plan: free
+    repo: "<YOUR_GIT_REPO>"
+    branch: main
+    buildCommand: cd frontend && npm ci && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_BACKEND_URL
+        value: "https://<BACKEND-URL>"
+
+databases:
+  - name: vecinapp-db
+    type: postgresql
+    plan: starter
+    region: oregon
+
+# Notas:
+# - Render creará la base de datos y te dará un DATABASE_URL. Copiala en las Environment
+#   variables del servicio `vecinapp-backend` (Settings -> Environment) como `DATABASE_URL`.
+# - Añade en el dashboard de Render los secrets:
+#     JWT_SECRET, REFRESH_TOKEN_SECRET, ACCESS_TOKEN_EXP, REFRESH_TOKEN_EXP
+# - Ajusta `region`, `plan` y `repo` según tus preferencias.
+# - Evita guardar secretos en el repo. Usa el dashboard de Render para variables sensibles.
