@@ -26,7 +26,6 @@ services:
   - type: web
     name: vecinapp-frontend
     env: static
-    plan: free
     buildCommand: cd frontend && npm ci && npm run build
     staticPublishPath: frontend/dist
     envVars:
@@ -36,7 +35,6 @@ services:
 databases:
   - name: vecinapp-db
     databaseName: vecinapp
-    plan: starter
     region: oregon
 
 # Notas:
