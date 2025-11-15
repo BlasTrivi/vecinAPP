@@ -15,7 +15,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: NODE_VERSION
-        value: 20
+        value: "20"
       - key: FRONTEND_URL
         value: "https://<FRONTEND-URL>"
       - key: DATABASE_URL
@@ -23,7 +23,7 @@ services:
           name: vecinapp-db
           property: connectionString
 
-  - type: static
+  - type: static_site
     name: vecinapp-frontend
     region: oregon
     plan: free
