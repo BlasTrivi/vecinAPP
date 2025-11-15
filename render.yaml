@@ -36,7 +36,7 @@ services:
 
 databases:
   - name: vecinapp-db
-    type: postgresql
+    databaseName: vecinapp
     plan: starter
     region: oregon
 
