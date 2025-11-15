@@ -23,8 +23,9 @@ services:
           name: vecinapp-db
           property: connectionString
 
-  - type: static_site
+  - type: web
     name: vecinapp-frontend
+    env: static
     region: oregon
     plan: free
     buildCommand: cd frontend && npm ci && npm run build
